@@ -3,38 +3,26 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-use Illuminate\View\View;
+use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
-class ConfirmablePasswordController extends Controller
+class ConfirmPasswordController extends Controller
 {
-    /**
-     * Show the confirm password view.
-     */
-    public function show(): View
-    {
-        return view('auth.confirm-password');
-    }
+    use ConfirmsPasswords;
 
     /**
-     * Confirm the user's password.
+     * Where to redirect users when the intended url fails.
+     *
+     * @var string
      */
-    public function store(Request $request): RedirectResponse
+    protected $redirectTo = '/home';
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
-        if (! Auth::guard('web')->validate([
-            'email' => $request->user()->email,
-            'password' => $request->password,
-        ])) {
-            throw ValidationException::withMessages([
-                'password' => __('auth.password'),
-            ]);
-        }
-
-        $request->session()->put('auth.password_confirmed_at', time());
-
-        return redirect()->intended(route('dashboard', absolute: false));
+        $this->middleware('auth');
     }
 }
