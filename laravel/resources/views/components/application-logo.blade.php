@@ -1,0 +1,1 @@
+<img src="{{ asset('images/H-Dear_icon.webp') }}" alt="Logo Aplikasi" {{ $attributes }}>
