@@ -51,7 +51,7 @@ class TemplateSeeder extends Seeder
             'html_content' => '
             <div style="font-family: \'Georgia\', serif; padding: 40px; color: #333; line-height: 1.6; border: 2px solid #8e44ad; border-radius: 10px;">
                 <div style="text-align: center; color: #8e44ad; margin-bottom: 30px;">
-                    <h1 style="margin:0;">OFFICIAL JURY INVITATION</h1>
+                    <h1 style="margin:0;">OFFICIAL JUDGES INVITATION</h1>
                     <p>{{nama_acara}}</p>
                 </div>
 
