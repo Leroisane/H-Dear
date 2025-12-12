@@ -61,18 +61,27 @@ class UndanganController extends Controller
         $htmlContent = $this->renderHtml($undangan);
         
         $pdf = Pdf::loadHTML($htmlContent);
+<<<<<<< HEAD
         // Set ukuran kertas agar muat banyak konten
+=======
+>>>>>>> 06169fef42b380cf43c10bedee6907e742aab3d5
         $pdf->setPaper('a4', 'portrait');
         
         return $pdf->download('undangan-' . str_replace(' ', '-', $undangan->nama_acara) . '.pdf');
     }
 
+<<<<<<< HEAD
     // --- FUNGSI TUKAR GULING DATA (DENGAN ANTI-EMOJI) ---
+=======
+>>>>>>> 06169fef42b380cf43c10bedee6907e742aab3d5
     private function renderHtml($undangan)
     {
         $html = $undangan->template->html_content;
 
+<<<<<<< HEAD
         // Ambil pesan tambahan
+=======
+>>>>>>> 06169fef42b380cf43c10bedee6907e742aab3d5
         $pesanTambahan = $undangan->pesan_tambahan;
         if (empty($pesanTambahan)) {
             $pesanTambahan = '-';
@@ -82,7 +91,10 @@ class UndanganController extends Controller
         $jabatanPengirim = $undangan->jabatan_pengirim ?? 'Ketua Pelaksana';
 
         $variables = [
+<<<<<<< HEAD
             // Bersihkan Input dari Emoji agar PDF Aman
+=======
+>>>>>>> 06169fef42b380cf43c10bedee6907e742aab3d5
             '{{nama_pengirim}}' => $this->cleanText($undangan->nama_pengirim),
             '{{nama_acara}}' => $this->cleanText($undangan->nama_acara),
             '{{tempat_acara}}' => $this->cleanText($undangan->tempat_acara),
