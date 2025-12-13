@@ -1,59 +1,187 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# H-Dear – Aplikasi Generator Undangan & Surat Resmi Otomatis
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+H-Dear adalah aplikasi berbasis web yang dirancang untuk mempermudah panitia acara (Event Organizer/BEM/Hima) dalam membuat surat permohonan dan undangan resmi secara otomatis. Aplikasi ini menyediakan berbagai template standar (seperti MC, Pemateri, Juri, VIP) dengan formulir input dinamis dan menghasilkan output langsung berupa file PDF siap cetak.
 
-## About Laravel
+Project ini dibangun menggunakan arsitektur MVC dan menerapkan database relasional.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Daftar Fitur
+Berikut adalah implementasi fitur:
+- Authentication System: Login & Register untuk pengguna.
+- Role-Based Access Control (RBAC): Pemisahan akses antara User (Pembuat Surat) dan Admin (Pengelola Template).
+- CRUD Template (Admin): Admin dapat Membuat, Membaca, Mengedit, dan Menghapus template surat beserta thumbnail-nya.
+- Smart Form Logic: Formulir input bersifat dinamis; kolom input akan berubah menyesuaikan jenis template yang dipilih (misal: kolom "Topik Materi" hanya muncul untuk template Pemateri).
+- PDF Generator: Generate surat otomatis menjadi file `.pdf` menggunakan library DomPDF.
+- Session & Middleware: Proteksi route admin dan user menggunakan middleware `auth` dan pengecekan role `is_admin`.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🔧 Arsitektur / Tech Stack
+Teknologi yang digunakan dalam pengembangan project:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Backend: PHP / Laravel 10 (MVC Architecture)
+- Database: MySQL (Relational Database)
+- Frontend: Blade Templates, Tailwind CSS (CDN)
+- PDF Engine: barryvdh/laravel-dompdf
+- Version Control: Git & GitHub
 
-## Learning Laravel
+## 🗂 Skema Database
+Aplikasi ini menggunakan minimal 3 tabel yang saling berelasi.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Tabel `users`
+Menyimpan data pengguna dan status role (admin/user).
+- `id` (Primary Key)
+- `name`
+- `email`
+- `password`
+- `is_admin` (Boolean: 1=Admin, 0=User)
+- `timestamps`
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Tabel `templates`
+Menyimpan desain master surat HTML dan konfigurasi tampilan.
+- `id` (Primary Key)
+- `nama_template` (String)
+- `deskripsi` (Text)
+- `html_content` (LongText - kode HTML surat)
+- `thumbnail` (String - path gambar)
+- `is_active` (Boolean)
+- `timestamps`
 
-## Laravel Sponsors
+### Tabel `undangans`
+Menyimpan data surat yang telah dibuat oleh user.
+- `id` (Primary Key)
+- `user_id` (Foreign Key -> users.id)
+- `template_id` (Foreign Key -> templates.id)
+- `nama_pengirim`
+- `nama_acara`
+- `tanggal_acara`
+- `tempat_acara`
+- `tujuan_undangan` (Nama Penerima)
+- `nomor_surat` (Nullable)
+- `jabatan_penerima` (Nullable - e.g., MC, Juri)
+- `topik_acara` (Nullable - Khusus Pemateri/Juri)
+- `link_dokumen` (Nullable - Khusus TOR/Rundown)
+- `pesan_tambahan`
+- `timestamps`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+**Relasi:**
+- User *has many* Undangans.
+- Template *has many* Undangans.
 
-### Premium Partners
+## 🚀 Cara Menjalankan (Installation)
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ikuti langkah berikut untuk menjalankan project:
 
-## Contributing
+**a. Clone repository**
+```bash
+git clone https://github.com/Leroisane/H-Dear
+````
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**b. Masuk Folder Project**
 
-## Code of Conduct
+```bash
+cd h-dear
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+**c. Install Dependencies**
 
-## Security Vulnerabilities
+```bash
+composer install
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**d. Setup Environment**
 
-## License
+  - Copy file `.env.example` menjadi `.env`.
+  - Atur konfigurasi database di file `.env`:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+<!-- end list -->
+
+```env
+DB_CONNECTION=mysql
+DB_HOST=ballast.proxy.rlwy.net
+DB_PORT=32780
+DB_DATABASE=h_dear
+DB_USERNAME=root
+DB_PASSWORD=rjjwJInhqKnqNavRBHaQCUwJFEQCqOqb
+```
+
+**e. Generate App Key**
+
+```bash
+php artisan key:generate
+```
+
+**f. Setup Storage Link**
+Wajib dilakukan agar thumbnail template muncul.
+
+```bash
+php artisan storage:link
+```
+
+**g. Migrasi & Seeding Data (PENTING)**
+Perintah ini akan membuat tabel dan mengisi data Admin default serta 6 Template bawaan.
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+**h. Jalankan Server**
+
+```bash
+php artisan serve
+```
+
+Akses web di: `http://127.0.0.1:8000`
+
+## 📌 List Endpoint / Route
+
+Daftar path utama yang tersedia dalam project:
+
+### Authentication
+
+  - `GET  /login` : Halaman Login
+  - `POST /login` : Proses Login
+  - `GET  /register` : Halaman Daftar
+  - `POST /register` : Proses Daftar
+  - `POST /logout` : Logout User
+
+### User (Pembuat Surat)
+
+  - `GET  /dashboard` : Redirect ke halaman utama user
+  - `GET  /undangan` : Halaman pilih template (Read)
+  - `GET  /undangan/{id}/create` : Form pembuatan surat (Create)
+  - `POST /undangan` : Simpan data surat (Store)
+  - `GET  /undangan/{id}/preview` : Halaman preview surat sebelum download
+  - `GET  /undangan/{id}/download` : Download PDF surat
+
+### Admin (Pengelola)
+
+Dilindungi middleware `is_admin`.
+
+  - `GET  /admin/templates` : Dashboard daftar template (Read)
+  - `GET  /admin/templates/create` : Form tambah template (Create)
+  - `POST /admin/templates` : Simpan template baru
+  - `GET  /admin/templates/{id}/edit` : Form edit template (Update)
+  - `PUT  /admin/templates/{id}` : Update data template
+  - `DELETE /admin/templates/{id}` : Hapus template (Delete)
+
+## 🖼 Screenshots UI
+
+**1. Halaman Pilihan Template (User)**
+
+**2. Smart Form Input**
+
+**3. Preview & Download PDF**
+
+## 👥 Anggota Kelompok
+
+Project ini dikerjakan oleh:
+
+- Muhammad Ihsan Fadillah (245150700111023): User Interface & PDF Generator
+- Mohammad Rozan Hanan (245150700111042): Backend & Authentication Specialist
+- Audrey Khansa Larasati (245150701111031): Admin Panel & Template Management
+
+## 📄 Akun Default
+
+Gunakan akun ini untuk pengujian:
+
+  - **Admin**: `admin@admin.com` / password: `password`
+  - **User**: Silakan register akun baru.
