@@ -166,10 +166,14 @@ Dilindungi middleware `is_admin`.
 ## 🖼 Screenshots UI
 
 **1. Halaman Pilihan Template (User)**
+<img width="1895" height="876" alt="Screenshot 2025-12-13 214708" src="https://github.com/user-attachments/assets/b0275856-a576-4a22-b7ff-9866e4701a0e" />
 
 **2. Smart Form Input**
+<img width="1893" height="870" alt="Screenshot 2025-12-13 220039" src="https://github.com/user-attachments/assets/b5bcb454-0985-4580-a5b7-f6175a2b6c5a" />
 
 **3. Preview & Download PDF**
+<img width="1492" height="868" alt="Screenshot 2025-12-13 220348" src="https://github.com/user-attachments/assets/65e12ac7-a9d1-45ad-9038-7252eeb3bd63" />
+
 
 ## 👥 Anggota Kelompok
 
